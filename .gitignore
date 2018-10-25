@@ -1,0 +1,4 @@
+image_resize_api/node_modules
+image_resize_worker/node_modules
+thumbs/*
+uploads/*

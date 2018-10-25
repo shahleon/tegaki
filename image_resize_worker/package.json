@@ -1,0 +1,30 @@
+{
+  "name": "image_resize_worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A nodejs worker that reads from kue queue and resize image using imagemagick",
+  "main": "worker.js",
+  "scripts": {
+    "start": "node src/worker.js",
+    "test": "mocha 'test/**/*.js' --exit"
+  },
+  "keywords": [
+    "nodejs",
+    "worker",
+    "imagemagick",
+    "kue"
+  ],
+  "author": "Shahnewaz Leon <shahnewaz.leon@monstar-lab.com.bd>",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "gm": "^1.23.1",
+    "kue": "^0.11.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "proxyquire": "^2.1.0",
+    "sinon": "^7.0.0"
+  }
+}

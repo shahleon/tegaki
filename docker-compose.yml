@@ -1,0 +1,34 @@
+version: '2'
+volumes:
+  redis:
+  uploads:
+  thumbs:
+services:
+  web:
+    build: image_resize_api/
+    command: npm start
+    ports:
+      - "3000:3000"
+    links:
+      - redis:redis
+    depends_on:
+      - redis
+    volumes:
+      - $PWD/uploads:/uploads
+      - $PWD/thumbs:/thumbs
+
+  worker:
+     build: image_resize_worker/
+     command: npm start
+     links:
+       - redis:redis
+     depends_on:
+       - redis
+     volumes:
+       - $PWD/uploads:/uploads
+       - $PWD/thumbs:/thumbs
+
+  redis:
+    image: redis
+    volumes:
+      - redis:/data
