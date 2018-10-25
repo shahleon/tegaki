@@ -3,6 +3,8 @@ const gm = require('./lib/gm');
 const kue = require('kue');
 const redis = require('./lib/redis');
 
+let jobType = 'image';
+
 const queue = kue.createQueue({
   redis: process.env.REDIS_CONNSTR
 });
@@ -11,10 +13,11 @@ queue.on( 'error', function( err ) {
   console.log( 'Something went wrong with kue ', err );
 });
 
-queue.process('image', function(job, done){
+queue.process(jobType, function(job, done){
   resizeImage(job, done);
 });
 
+// resize image with the image name and size data from kue job and update redis with proper status
 function resizeImage(job, done) {
   redis.get(job.data.redisKey)
     .then(function(data){
@@ -23,9 +26,11 @@ function resizeImage(job, done) {
         done();
       } else {
         let imageData = JSON.parse(data);
+        let width = job.data.size.width;
+        let height = job.data.size.height;
         let srcPath = '/uploads/' + imageData.name;
         let destPath = '/thumbs/' + imageData.name;
-        gm.resize(srcPath, destPath, 100, 100)
+        gm.resize(srcPath, destPath, width, height)
           .then(function(data) {
             redis.set(job.data.redisKey, JSON.stringify({"processed" : true, "name" : imageData.name}))
               .then(function(key){

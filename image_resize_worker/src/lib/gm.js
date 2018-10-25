@@ -1,6 +1,7 @@
 const gm = require('gm').subClass({imageMagick: true});
 const fs = require('fs');
 
+// resize image with the provided width, height using imageMagick and return a Promise
 let resize = function(srcPath, destPath, maxWidth, maxHeight) {
   return new Promise(function(resolve, reject){
     gm(srcPath)

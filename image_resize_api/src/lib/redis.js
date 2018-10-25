@@ -9,6 +9,7 @@ client.on('error', function (err) {
     console.log('Something went wrong with redis', err);
 });
 
+// set value for the provided key in redis and returns a Promise
 let set = function(key, value) {
   return new Promise(function(resolve, reject) {
     client.set(key, value, function(err, data) {
@@ -23,6 +24,7 @@ let set = function(key, value) {
   });
 }
 
+// get value for the provided key in redis and returns a Promise
 let get = function (key) {
   return new Promise(function (resolve, reject) {
     client.get(key, function(err, data) {
@@ -37,6 +39,7 @@ let get = function (key) {
   });
 }
 
+// delete the provided key from redis and returns a Promise
 let deleteKey = function (key) {
   client.del(key, function(err, response) {
     if(err) {

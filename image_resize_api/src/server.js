@@ -12,6 +12,7 @@ app.use('/image', imageRoutes);
 app.use('*', invalidRouteHandler);
 app.use(errorHandler);
 
+// global error handler
 function errorHandler(err, req, res, next) {
   console.log(err);
   if (!err.statusCode) {
@@ -25,6 +26,7 @@ function errorHandler(err, req, res, next) {
   });
 }
 
+// invalid route handler
 function invalidRouteHandler(req, res, next) {
   res.status(404).json({
     error : {

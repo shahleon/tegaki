@@ -6,6 +6,15 @@ let redis = require('../../src/lib/redis');
 let gm = require('../../src/lib/gm');
 
 let kueStub = {};
+let job = {
+  data:{
+    redisKey:'',
+    size: {
+      width: 100,
+      height: 100
+    }
+  }
+};
 kueStub.createQueue = function (config) {
   return {
     on: function(event, callback){},
@@ -30,7 +39,7 @@ describe('worker', function() {
     sinon.stub(redis, 'get').callsFake(function(key) {
       return Promise.reject(null);
     });
-    worker.resizeImage({data:{redisKey:''}}, function(err) {
+    worker.resizeImage(job, function(err) {
       err.should.be.an.instanceOf(Error);
       err.message.should.be.equal('Redis error!');
       done();
@@ -47,7 +56,7 @@ describe('worker', function() {
       return Promise.reject('gm resize error!')
     });
 
-    worker.resizeImage({data:{redisKey:'image-id'}}, function(err) {
+    worker.resizeImage(job, function(err) {
       err.should.be.an.instanceOf(Error);
       err.message.should.be.equal('Could not resize image');
       done();
@@ -68,7 +77,7 @@ describe('worker', function() {
       return Promise.resolve(key);
     });
 
-    worker.resizeImage({data:{redisKey:'image-id'}}, function(err) {
+    worker.resizeImage(job, function(err) {
       should.equal(err, undefined);
       done();
     });

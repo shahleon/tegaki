@@ -1,5 +1,6 @@
 const service = require('../services/imageService');
 
+// GET /image/:id/thumbnail route handler
 let getImage = function(req, res, next){
   service.getImageData(req.params.id)
     .then(function(data){
@@ -10,6 +11,7 @@ let getImage = function(req, res, next){
     });
 }
 
+// POST /image route handler
 let postImage = function (req, res, next) {
   service.saveImageForProcessing(req.file)
     .then(function(data){

@@ -3,6 +3,8 @@ const kue = require('../../../lib/kue');
 const errors = require('../../../errors');
 const uuidv4 = require('uuid/v4');
 
+// get uploaded image data from redis
+// and returns a Promise
 let getImageData = function(imageId) {
   let response = {
     data: {
@@ -35,6 +37,8 @@ let getImageData = function(imageId) {
   });
 }
 
+// store uploaded image data in redis and create a kue job for processing by worker
+// and returns a Promise
 let saveImageForProcessing = function(file) {
   return new Promise(function(resolve, reject){
     if (!file) {
@@ -48,7 +52,11 @@ let saveImageForProcessing = function(file) {
       });
       let jobType = 'image';
       let jobData = {
-        redisKey: key
+        redisKey: key,
+        size: {
+          width: 100,
+          height: 100
+        }
       };
       let response = {
         data: {
