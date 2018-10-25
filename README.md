@@ -18,6 +18,7 @@ The image_resize_api RESTful API server uses the following:
 - [Chai](https://www.chaijs.com/) as the assertion library.
 - [Sinon](https://sinonjs.org/) as the stubbing library for test targets dependency stubbing.
 - [chai-as-promised](https://github.com/domenic/chai-as-promised) for asserting promise.
+- [Multer](https://github.com/expressjs/multer) for uploading image.
 
 The image_resize_worker worker uses the following:
 
